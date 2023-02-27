@@ -25,7 +25,7 @@ void setup() {
 void loop() {
 
   potVal = analogRead(pot);
-  stepper.moveTo(analog_in);
+  stepper.moveTo(potVal);
   stepper.setSpeed(300);
   stepper.runSpeedToPosition();
 }
