@@ -22,8 +22,8 @@ void loop() {
 	// Make sure we dont get 0 speed or accelerations
 	delay(1000);
 	stepper.moveTo(rand() % 200);
-	stepper.setMaxSpeed((rand() % 200) + 1);
-	stepper.setAcceleration((rand() % 200) + 1);
+	stepper.setMaxSpeed(constrain((rand() % 1500), 75, 1500));
+	stepper.setAcceleration(constrain((rand() % 1500), 75, 1500));
     }
     stepper.run();
 }
