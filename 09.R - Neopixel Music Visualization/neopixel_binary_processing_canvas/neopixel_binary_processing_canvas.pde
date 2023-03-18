@@ -24,7 +24,7 @@ void draw() {
   noStroke();
   ellipse(mouseX, mouseY, 100, 100);
 
-  // this picks up the color for 30 pixels on the screen
+  // this samples colors from a pixel on the canvas for each LED in the strip
   for (int i=0; i < NUM_LEDS; i++) {
     int x = floor(width/2);
     int y = floor(height/NUM_LEDS * i);
