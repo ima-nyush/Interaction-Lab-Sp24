@@ -25,7 +25,7 @@ void setup() {
   circleWidth = width/float(freqWanted);
   // create the Frequency analysis object and tell it how many frequencies to analyze
   freqAnalysis = new FFT(this, frequencies);
-  // use the microphone as the input for the analysis
+  // use the soundfile as the input for the analysis
   freqAnalysis.input(sound);
 }
 

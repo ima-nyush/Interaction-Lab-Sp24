@@ -14,7 +14,7 @@ void setup() {
 
   // create the Amplitude analysis object
   analysis = new Amplitude(this);
-  // use the microphone as the input for the analysis
+  // use the soundfile as the input for the analysis
   analysis.input(sound);
 }
 
@@ -26,6 +26,6 @@ void draw() {
   float volume = analysis.analyze();
   // map the volume value to a useful scale
   float diameter = map(volume, 0, 1, 0, width);
-  // draw a circle based on the microphone amplitude (volume)
+  // draw a circle based on the soundfile's amplitude (volume)
   circle(width/2, height/2, diameter);
 }
