@@ -8,12 +8,12 @@
 
 #include <FastLED.h>
 
-int NUM_LEDS = 60;   // How many LEDs in your strip?
-int DATA_PIN = 3;    // Which pin is connected to the strip's DIN?
+#define NUM_LEDS 60  // How many LEDs in your strip?
+#define DATA_PIN 3   // Which pin is connected to the strip's DIN?
 
 CRGB leds[NUM_LEDS];
 int next_led = 0;    // 0..NUM_LEDS-1
-int next_col = 0;    // 0..2
+byte next_col = 0;   // 0..2
 byte next_rgb[3];    // temporary storage for next color
 
 void setup() {
