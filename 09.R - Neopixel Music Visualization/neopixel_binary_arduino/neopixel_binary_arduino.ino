@@ -19,7 +19,7 @@ byte next_rgb[3];    // temporary storage for next color
 void setup() {
   Serial.begin(115200);
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
-  FastLED.setBrightness(10);  // external 5V needed for full brightness
+  FastLED.setBrightness(50);  // external 5V needed for full brightness
   leds[0] = CRGB::Red;
   FastLED.show();
   delay(1000);
