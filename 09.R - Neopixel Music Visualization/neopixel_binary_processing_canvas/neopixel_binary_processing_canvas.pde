@@ -2,8 +2,8 @@ import processing.serial.*;
 
 Serial serialPort;
 
-int NUM_LEDS = 60;                    // How many LEDs in your strip?
-color[] strip = new color[NUM_LEDS];  // array of one color for each pixel
+int NUM_LEDS = 60;                   // How many LEDs in your strip?
+color[] leds = new color[NUM_LEDS];  // array of one color for each pixel
 
 void setup() {
   size(900, 600);
@@ -33,7 +33,7 @@ void draw() {
     noFill();
     rect(x-1, y-1, 3, 3);
     // and stores the color in the array
-    strip[i] = col;
+    leds[i] = col;
   }
 
   sendColors();                        // send the array of colors to Arduino
@@ -48,12 +48,12 @@ void draw() {
 void sendColors() {
   byte[] out = new byte[NUM_LEDS*3];
   for (int i=0; i < NUM_LEDS; i++) {
-    out[i*3]   = (byte)(floor(red(strip[i])) >> 1);
+    out[i*3]   = (byte)(floor(red(leds[i])) >> 1);
     if (i == 0) {
       out[0] |= 1 << 7;
     }
-    out[i*3+1] = (byte)(floor(green(strip[i])) >> 1);
-    out[i*3+2] = (byte)(floor(blue(strip[i])) >> 1);
+    out[i*3+1] = (byte)(floor(green(leds[i])) >> 1);
+    out[i*3+2] = (byte)(floor(blue(leds[i])) >> 1);
   }
   serialPort.write(out);
 }

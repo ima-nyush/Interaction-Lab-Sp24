@@ -4,8 +4,8 @@ import processing.sound.*;
 Serial serialPort;
 SoundFile sound;
 
-int NUM_LEDS = 60;                    // How many LEDs in your strip?
-color[] strip = new color[NUM_LEDS];  // array of one color for each pixel
+int NUM_LEDS = 60;                   // How many LEDs in your strip?
+color[] leds = new color[NUM_LEDS];  // array of one color for each pixel
 
 void setup() {
   size(900, 600);
@@ -35,19 +35,22 @@ void draw() {
 
   for (int i=0; i < NUM_LEDS; i++) {   // loop through each pixel in the strip
     if (i < progress * NUM_LEDS) {     // based on where we are in the song
-      strip[i] = color(255, 0, 0);     // turn a pixel on
+      leds[i] = color(255, 0, 0);      // turn a pixel to red
     } else {
-      strip[i] = color(0);             // or off
+      leds[i] = color(0, 0, 0);        // or to black
     }
   }
 
-  // example for a different mode
+
+  // this shows how to make something different happen at a certain
+  // time in the song (5 and 7 are seconds)
 
   if (sound.position() > 5 && sound.position() < 7) {
     for (int i=0; i < NUM_LEDS; i++) {
-      strip[i] = lerpColor(color(255, 0, 0), color(0, 0, 255), map(sound.position(), 5, 7, 0, 1));
+      leds[i] = lerpColor(color(255, 0, 0), color(0, 0, 255), map(sound.position(), 5, 7, 0, 1));
     }
   }
+
 
   sendColors();                        // send the array of colors to Arduino
 }
@@ -55,18 +58,18 @@ void draw() {
 
 
 // the helper function below sends the colors
-// in the "strip" array to a connected Arduino
+// in the "leds" array to a connected Arduino
 // running the "neopixel_binary_arduino" sketch
 
 void sendColors() {
   byte[] out = new byte[NUM_LEDS*3];
   for (int i=0; i < NUM_LEDS; i++) {
-    out[i*3]   = (byte)(floor(red(strip[i])) >> 1);
+    out[i*3]   = (byte)(floor(red(leds[i])) >> 1);
     if (i == 0) {
       out[0] |= 1 << 7;
     }
-    out[i*3+1] = (byte)(floor(green(strip[i])) >> 1);
-    out[i*3+2] = (byte)(floor(blue(strip[i])) >> 1);
+    out[i*3+1] = (byte)(floor(green(leds[i])) >> 1);
+    out[i*3+2] = (byte)(floor(blue(leds[i])) >> 1);
   }
   serialPort.write(out);
 }
