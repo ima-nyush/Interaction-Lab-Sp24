@@ -3,9 +3,10 @@ import processing.serial.*;
 Serial serialPort;
 String myString;
 
-int NUM_OF_VALUES_FROM_ARDUINO = 2;   /** YOU MUST CHANGE THIS ACCORDING TO YOUR PROJECT **/
-int sensorValues[] = new int[NUM_OF_VALUES_FROM_ARDUINO];
-   /** this array stores values from Arduino **/
+int NUM_OF_VALUES_FROM_ARDUINO = 2;  /* CHANGE THIS ACCORDING TO YOUR PROJECT */
+
+/* This array stores values from Arduino */
+int arduino_values[] = new int[NUM_OF_VALUES_FROM_ARDUINO];
 
 
 void setup() {
@@ -20,33 +21,36 @@ void setup() {
 }
 
 void draw() {
-  getSerialData();
-  printArray(sensorValues);
   background(0);
   stroke(255);
   fill(255);
 
+  // receive the values from Arduino
+  getSerialData();
+  printArray(arduino_values);
+
   // use the values like this:
-  float x = map(sensorValues[0], 0, 1023, 0, width);
-  float y = map(sensorValues[1], 0, 1023, 0, height);
-  
+  float x = map(arduino_values[0], 0, 1023, 0, width);
+  float y = map(arduino_values[1], 0, 1023, 0, height);
+
   rectMode(CENTER);
   rect(width/2, height/2, x, y);
 }
 
 
-// the helper function below receives the values from arduino
-// in the "sensorValues" array from a connected Arduino
-// running the "Serial_AtoP" sketch
+// the helper function below receives the values from Arduino
+// in the "arduino_values" array from a connected Arduino
+// running the "serial_AtoP_arduino" sketch
+// (You won't need to change this code.)
 
 void getSerialData() {
   while (serialPort.available() > 0) {
-    myString = serialPort.readStringUntil( 10 ); // 10 = '\n'  Linefeed in ASCII
+    myString = serialPort.readStringUntil( 10 );  // 10 = '\n'  Linefeed in ASCII
     if (myString != null) {
       String[] serialInArray = split(trim(myString), ",");
       if (serialInArray.length == NUM_OF_VALUES_FROM_ARDUINO) {
         for (int i=0; i<serialInArray.length; i++) {
-          sensorValues[i] = int(serialInArray[i]);
+          arduino_values[i] = int(serialInArray[i]);
         }
       }
     }

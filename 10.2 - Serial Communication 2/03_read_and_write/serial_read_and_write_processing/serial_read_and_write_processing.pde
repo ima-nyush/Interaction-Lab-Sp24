@@ -3,11 +3,13 @@ import processing.serial.*;
 Serial serialPort;
 String myString;
 
-int NUM_OF_VALUES_FROM_PROCESSING = 2;  /** YOU MUST CHANGE THIS ACCORDING TO YOUR PROJECT **/
-int processing_values[] = new int[NUM_OF_VALUES_FROM_PROCESSING]; /** this array stores values you might want to send to Arduino **/
+int NUM_OF_VALUES_FROM_PROCESSING = 2;  /* CHANGE THIS ACCORDING TO YOUR PROJECT */
+/* This array stores values you might want to send to Arduino */
+int processing_values[] = new int[NUM_OF_VALUES_FROM_PROCESSING];
 
-int NUM_OF_VALUES_FROM_ARDUINO = 2;  /** YOU MUST CHANGE THIS ACCORDING TO YOUR PROJECT **/
-int sensorValues[] = new int[NUM_OF_VALUES_FROM_ARDUINO]; /** this array stores values from Arduino **/
+int NUM_OF_VALUES_FROM_ARDUINO = 2;  /* CHANGE THIS ACCORDING TO YOUR PROJECT */
+/* This array stores values from Arduino */
+int arduino_values[] = new int[NUM_OF_VALUES_FROM_ARDUINO];
 
 
 void setup() {
@@ -20,26 +22,23 @@ void setup() {
   serialPort = new Serial(this, "/dev/cu.usbmodem1101", 9600);
 }
 
-
 void draw() {
   background(0);
 
-  //receive the values from Arduino
+  // receive the values from Arduino
   getSerialData();
 
-  //use the values from arduino
-  
-   //sensorValues[0] are the values from the potentiometer
-  float r = map(sensorValues[0], 0, 1023, 0, width);
+  // arduino_values[0] are the values from the potentiometer
+  float r = map(arduino_values[0], 0, 1023, 0, width);
   circle(width/2, height/2, r);
-  //sensorValues[1] are the values from the button
-  if (sensorValues[1] == 1) {
+
+  // arduino_values[1] are the values from the button
+  if (arduino_values[1] == 1) {
     fill(random(255), random(255), random(255));
   }
- 
 
-  // give values to the variables you want to send to arduino
-  //change the code according to your project
+  // put the values you want to send into the values array
+  // for example:
   if (mousePressed) {
     processing_values[0] = 1;
   } else {
@@ -47,15 +46,15 @@ void draw() {
   }
   processing_values[1] = int(map(mouseX, 0, width, 0, 180));
 
-    // send the values to Arduino.
-    sendSerialData();
+  // send the values to Arduino
+  sendSerialData();
 }
 
 
-
 // the helper function below receives the values from arduino
-// in the "sensorValues" array from a connected Arduino
-// running the "Serial_AtoP" sketch
+// in the "arduino_values" array from a connected Arduino
+// running the "serial_read_and_write_arduino" sketch
+// (You won't need to change this code.)
 
 void getSerialData() {
   while (serialPort.available() > 0) {
@@ -65,7 +64,7 @@ void getSerialData() {
       String[] serialInArray = split(trim(myString), ",");
       if (serialInArray.length == NUM_OF_VALUES_FROM_ARDUINO) {
         for (int i=0; i<serialInArray.length; i++) {
-          sensorValues[i] = int(serialInArray[i]);
+          arduino_values[i] = int(serialInArray[i]);
         }
       }
     }
@@ -74,22 +73,23 @@ void getSerialData() {
 
 // the helper function below sends the variables
 // in the "processing_values" array to a connected Arduino
-// running the "Serial_PtoA" sketch
+// running the "serial_read_and_write_arduino" sketch
+// (You won't need to change this code.)
 
 void sendSerialData() {
   String data = "";
   for (int i=0; i<processing_values.length; i++) {
     data += processing_values[i];
-    //if i is less than the index number of the last element in the values array
+    // if i is less than the index number of the last element in the values array
     if (i < processing_values.length-1) {
-      data += ","; // add splitter character "," between each values element
+      data += ",";  // add splitter character "," between each values element
     }
-    //if it is the last element in the values array
+    // if it is the last element in the values array
     else {
-      data += "\n"; // add the end of data character "n"
+      data += "\n";  // add the end of data character "n"
     }
   }
-  //write to Arduino
+  // write to Arduino
   serialPort.write(data);
-  print("to arduino: "+ data); // this prints to the console the values going to arduino
+  print("To Arduino: "+ data);  // this prints to the console the values going to Arduino
 }

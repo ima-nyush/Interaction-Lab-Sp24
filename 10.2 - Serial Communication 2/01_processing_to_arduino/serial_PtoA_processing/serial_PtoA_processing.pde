@@ -3,9 +3,10 @@ import processing.serial.*;
 Serial serialPort;
 String myString;
 
-int NUM_OF_VALUES_FROM_PROCESSING = 3;  /** YOU MUST CHANGE THIS ACCORDING TO YOUR PROJECT **/
-int processing_values[] = new int[NUM_OF_VALUES_FROM_PROCESSING]; /** this array stores values 
-you might want to send to Arduino **/
+int NUM_OF_VALUES_FROM_PROCESSING = 3;  /* CHANGE THIS ACCORDING TO YOUR PROJECT */
+
+/* This array stores values you might want to send to Arduino */
+int processing_values[] = new int[NUM_OF_VALUES_FROM_PROCESSING];
 
 
 void setup() {
@@ -22,43 +23,41 @@ void setup() {
 void draw() {
   background(0);
 
-  // give values to the variables you want to send here
-  //change the code according to your project
-  //for example:
+  // put the values you want to send into the values array
+  // for example:
 
   if (mousePressed) {
     processing_values[0] = 1;
   } else {
     processing_values[0] = 0;
   }
-  // Here we are remapping the float values of the mouse location
   processing_values[1] = mouseX;
   processing_values[2] = mouseY;
 
-
-  // send the values to Arduino.
+  // send the values to Arduino
   sendSerialData();
 }
 
 
 // the helper function below sends the variables
 // in the "processing_values" array to a connected Arduino
-// running the "Serial_PtoA" sketch
+// running the "serial_PtoA_arduino" sketch
+// (You won't need to change this code.)
 
 void sendSerialData() {
   String data = "";
   for (int i=0; i<processing_values.length; i++) {
     data += processing_values[i];
-    //if i is less than the index number of the last element in the values array
+    // if i is less than the index number of the last element in the values array
     if (i < processing_values.length-1) {
-      data += ","; // add splitter character "," between each values element
+      data += ",";  // add splitter character "," between each values element
     }
-    //if it is the last element in the values array
+    // if it is the last element in the values array
     else {
-      data += "\n"; // add the end of data character linefeed "\n"
+      data += "\n";  // add the end of data character linefeed "\n"
     }
   }
-  //write to Arduino
+  // write to Arduino
   serialPort.write(data);
-  print(data); // this prints to the console the values going to arduino
+  print(data);  // this prints to the console the values going to arduino
 }
