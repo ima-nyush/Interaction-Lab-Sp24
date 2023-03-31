@@ -1,8 +1,7 @@
-// IMA NYU Shanghai
-// Interaction Lab
-//This example is to send multiple values from Processing to Arduino and Arduino to Processing.
+#define NUM_OF_VALUES_FROM_PROCESSING 2 /** YOU MUST CHANGE THIS ACCORDING TO YOUR PROJECT **/
 
-#define NUM_OF_VALUES_FROM_PROCESSING 2    /** YOU MUST CHANGE THIS ACCORDING TO YOUR PROJECT **/
+#include <Servo.h>
+Servo myservo;  // create servo object to control a servo
 
 /** DO NOT REMOVE THESE **/
 int tempValue = 0;
@@ -13,51 +12,47 @@ int processing_values[NUM_OF_VALUES_FROM_PROCESSING];
 
 void setup() {
   Serial.begin(9600);
-  // this block of code is an example of an LED, a DC motor, and a button
-  /*
-    pinMode(13, OUTPUT);
-    pinMode(9, OUTPUT);
-    pinMode(2, INPUT);
-  */
-  //end example
+  // this block of code is an example of an LED, a servo motor, and a button
+
+  pinMode(13, OUTPUT);
+  pinMode(2, INPUT);
+  myservo.attach(9);
 }
 
 void loop() {
 
   // to receive a value from Processing
   getSerialData();
-  
+
   // add your code here
   // use elements in the values array
   //and print values to send to Processing
 
   // this is an example:
-  /*
-    //example of using received values and turning on an LED
-    if (processing_values[0] == 1) {
+
+  //example of using received values and turning on an LED
+  if (processing_values[0] == 1) {
     digitalWrite(13, HIGH);
-    } else {
+  } else {
     digitalWrite(13, LOW);
-    }
-    analogWrite(9, processing_values[1]);
-    // too fast communication might cause some latency in Processing
-    // this delay resolves the issue.
-    delay(10);
-    //end of example of using received values
+  }
+  myservo.write(processing_values[1]);
+  // too fast communication might cause some latency in Processing
+  // this delay resolves the issue.
+  delay(15);
 
 
-    //example of sending the values to Processing
-    int sensor1 = analogRead(A0); // a potentiometer
-    int sensor2 = digitalRead(2); // the button
 
-    // send the values keeping this format
-    Serial.print(sensor1);
-    Serial.print(",");  // put comma between sensor values
-    Serial.print(sensor2);
-    Serial.println(); // add linefeed after sending the last sensor value
-    // end of example sending values
-  */
-  // end of example
+  //example of sending the values to Processing
+  int sensor0 = analogRead(A0);  // a potentiometer
+  int sensor1 = digitalRead(2);  // the button
+
+  // send the values keeping this format
+  Serial.print(sensor0);
+  Serial.print(",");  // put comma between sensor values
+  Serial.print(sensor1);
+  Serial.println();  // add linefeed after sending the last sensor value
+
 }
 
 //receive serial data from Processing
@@ -69,7 +64,7 @@ void getSerialData() {
     //for more information, visit the reference page: https://www.arduino.cc/en/Reference/SwitchCase
     switch (c) {
       //if the char c from Processing is a number between 0 and 9
-      case '0'...'9':
+      case '0' ... '9':
         //save the value of char c to tempValue
         //but simultaneously rearrange the existing values saved in tempValue
         //for the digits received through char c to remain coherent

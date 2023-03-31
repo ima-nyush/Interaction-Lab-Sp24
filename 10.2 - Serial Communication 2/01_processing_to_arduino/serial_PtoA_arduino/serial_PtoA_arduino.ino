@@ -1,13 +1,4 @@
-// IMA NYU Shanghai
-// Interaction Lab
-
-/**
-  This example is to send multiple values from Processing to Arduino.
-  You can find the Processing example file in the same folder which works with this Arduino file.
- **/
-
 #define NUM_OF_VALUES_FROM_PROCESSING 3    /** YOU MUST CHANGE THIS ACCORDING TO YOUR PROJECT **/
-
 
 /** DO NOT REMOVE THESE **/
 int tempValue = 0;
@@ -24,11 +15,8 @@ void setup() {
 
 void loop() {
   getSerialData();
-
   // add your code here using elements in the values array
-
   //this is an example connecting a buzzer to pin 8
-  /*
     if (processing_values[0] == 1) {
       //turn on an LED when the mouse is pressed
       digitalWrite(13, HIGH);
@@ -44,10 +32,8 @@ void loop() {
     } else {
       digitalWrite(13, LOW);
     }
-  */
-  //end of example
-
 }
+
 //receive serial data from Processing
 void getSerialData() {
   while (Serial.available()) {
