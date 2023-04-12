@@ -59,7 +59,7 @@ void getSerialData() {
   while (serialPort.available() > 0) {
     String in = serialPort.readStringUntil( 10 ); // 10 = '\n'  Linefeed in ASCII
     if (in != null) {
-      println("From Arduino: " + in);
+      print("From Arduino: " + in);
       String[] serialInArray = split(trim(in), ",");
       if (serialInArray.length == NUM_OF_VALUES_FROM_ARDUINO) {
         for (int i=0; i<serialInArray.length; i++) {
@@ -90,5 +90,5 @@ void sendSerialData() {
   }
   // write to Arduino
   serialPort.write(data);
-  println("To Arduino: " + data);  // this prints to the console the values going to Arduino
+  print("To Arduino: " + data);  // this prints to the console the values going to Arduino
 }

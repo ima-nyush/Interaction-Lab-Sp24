@@ -26,7 +26,6 @@ void draw() {
 
   // receive the values from Arduino
   getSerialData();
-  printArray(arduino_values);
 
   // use the values like this:
   float x = map(arduino_values[0], 0, 1023, 0, width);
@@ -46,6 +45,7 @@ void getSerialData() {
   while (serialPort.available() > 0) {
     String in = serialPort.readStringUntil( 10 );  // 10 = '\n'  Linefeed in ASCII
     if (in != null) {
+      print("From Arduino: " + in);
       String[] serialInArray = split(trim(in), ",");
       if (serialInArray.length == NUM_OF_VALUES_FROM_ARDUINO) {
         for (int i=0; i<serialInArray.length; i++) {
