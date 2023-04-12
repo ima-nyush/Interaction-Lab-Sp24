@@ -1,7 +1,6 @@
 import processing.serial.*;
 
 Serial serialPort;
-String myString;
 
 int NUM_OF_VALUES_FROM_PROCESSING = 3;  /* CHANGE THIS ACCORDING TO YOUR PROJECT */
 
