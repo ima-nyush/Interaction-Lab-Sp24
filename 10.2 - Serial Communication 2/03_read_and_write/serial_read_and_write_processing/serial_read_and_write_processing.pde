@@ -90,5 +90,5 @@ void sendSerialData() {
   }
   // write to Arduino
   serialPort.write(data);
-  print("To Arduino: "+ data);  // this prints to the console the values going to Arduino
+  println("To Arduino: " + data);  // this prints to the console the values going to Arduino
 }
