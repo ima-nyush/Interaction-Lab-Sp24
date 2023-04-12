@@ -4,10 +4,6 @@ Servo myservo;  // create servo object to control a servo
 
 #define NUM_OF_VALUES_FROM_PROCESSING 2 /* CHANGE THIS ACCORDING TO YOUR PROJECT */
 
-/* DO NOT REMOVE THESE */
-int tempValue = 0;
-int valueIndex = 0;
-
 /* This array stores values from Processing */
 int processing_values[NUM_OF_VALUES_FROM_PROCESSING];
 
@@ -56,6 +52,8 @@ void loop() {
 /* Receive serial data from Processing */
 /* You won't need to change this code */
 void getSerialData() {
+  static int tempValue = 0;
+  static int valueIndex = 0;
   while (Serial.available()) {
     char c = Serial.read();
     // switch - case checks the value of the variable in the switch function
