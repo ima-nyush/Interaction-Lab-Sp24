@@ -1,11 +1,16 @@
 PImage photo;
-photo = loadImage("yao.gif");
 
-size(600, 600);
-image(photo, 0, 0);
-filter(INVERT);
+void setup() {
+  size(600, 600);
+  photo = loadImage("yao.gif");
+}
 
-//filter(BLUR);
-//filter(BLUR, 6);
-//filter(GRAY);
-//filter(THRESHOLD);
+void draw() {
+  image(photo, 0, 0);
+  filter(INVERT);
+
+  //filter(BLUR);
+  //filter(BLUR, 6);
+  //filter(GRAY);
+  //filter(THRESHOLD);
+}

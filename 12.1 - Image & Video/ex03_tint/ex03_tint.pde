@@ -1,8 +1,12 @@
 PImage photo;
-photo = loadImage("yao.gif");
 
-size(600, 600);
+void setup() {
+  size(600, 600);
+  photo = loadImage("yao.gif");
+}
 
-image(photo, 0, 0);
-//tint(0, 0, 255);
-//image(photo, 0, 0);
+void draw() {
+  image(photo, 0, 0);
+  //tint(0, 0, 255);
+  //image(photo, 0, 0);
+}

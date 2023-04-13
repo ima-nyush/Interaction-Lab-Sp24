@@ -1,5 +1,4 @@
-//
-//image source https://shanghai.nyu.edu/is/its-here-nyu-shanghais-very-own-qilin-mascot-has-landed-wechat-sticker-store
+// image source https://shanghai.nyu.edu/is/its-here-nyu-shanghais-very-own-qilin-mascot-has-landed-wechat-sticker-store
 
 PImage photo;
 

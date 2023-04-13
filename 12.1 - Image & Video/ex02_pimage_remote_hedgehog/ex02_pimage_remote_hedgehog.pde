@@ -7,6 +7,6 @@ void setup() {
 
 void draw() {
   if (photo.width > 0) {
-    image(photo, 0, 0, width,height);
+    image(photo, 0, 0, width, height);
   }
 }

@@ -8,5 +8,5 @@ void setup() {
 
 void  draw() {
    image(photo, 0, 0);
-   filter(THRESHOLD, map(mouseX, 0.0, width, 0,1));
+   filter(THRESHOLD, map(mouseX, 0.0, width, 0, 1));
 }

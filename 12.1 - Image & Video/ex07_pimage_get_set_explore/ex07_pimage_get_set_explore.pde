@@ -10,13 +10,13 @@ void setup() {
 }
 
 void draw() {
-  //image(img1,0,0,width,height);
+  //image(img1, 0, 0, width, height);
   mouseColor = img1.get(mouseX, mouseY);
   mouseR = red(mouseColor);
   mouseG = green(mouseColor);
   mouseB = blue(mouseColor);
-  //println(mouseR+" "+mouseG+" "+mouseB);
-  //set(width/2,height/2,mouseColor);
+  //println(mouseR + " " + mouseG + " " + mouseB);
+  //set(width/2, height/2, mouseColor);
   fill(mouseColor);
   noStroke();
   square(width/2, height/2, 50);
