@@ -18,21 +18,14 @@ void draw() {
 }
 
 void keyPressed() {
-  // when a key is pressed, use a switch statement
-  // to determine which key was pressed
-  // and play the appropriate sound file and set a background color
-  switch(key) {
-  case 'k':
+  if (key == 'k') {
     kick.play();
     background(255, 0, 0);
-    break;
-  case 's':
+  } else if (key == 's') {
     snare.play();
     background(0, 255, 0);
-    break;
-  case 'h':
+  } else if (key == 'h') {
     hihat.play();
     background(0, 0, 255);
-    break;
   }
 }
