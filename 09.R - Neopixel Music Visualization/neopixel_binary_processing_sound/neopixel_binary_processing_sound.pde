@@ -42,15 +42,14 @@ void draw() {
   }
 
 
-  // this shows how to make something different happen at a certain
-  // time in the song (5 and 7 are seconds)
+  // you can use sound.position() to create a different animation
+  // for different parts of the song, e.g.
 
-  if (sound.position() > 5 && sound.position() < 7) {
-    for (int i=0; i < NUM_LEDS; i++) {
-      leds[i] = lerpColor(color(255, 0, 0), color(0, 0, 255), map(sound.position(), 5, 7, 0, 1));
-    }
-  }
-
+  // if (sound.position() < 5) {
+  //
+  // } else if (sound.position() < 10) {
+  //
+  // }
 
   sendColors();                        // send the array of colors to Arduino
 }
