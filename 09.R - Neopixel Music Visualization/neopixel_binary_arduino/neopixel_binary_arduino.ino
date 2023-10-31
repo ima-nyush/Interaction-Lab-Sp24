@@ -22,7 +22,7 @@ void setup() {
   FastLED.setBrightness(50);  // external 5V needed for full brightness
   leds[0] = CRGB::Red;
   FastLED.show();
-  delay(1000);
+  delay(3000);
   leds[0] = CRGB::Black;
   FastLED.show();
 }
