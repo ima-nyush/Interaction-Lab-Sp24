@@ -49,52 +49,39 @@ void loop() {
 }
 
 
-/* Receive serial data from Processing */
-/* You won't need to change this code */
+/* Receive Serial data from Processing */
+/* You won't need to change this code  */
+
 void getSerialData() {
-  static int tempValue = 0;
+  static int tempValue = 0;  // the "static" makes the local variable retain its value between calls of this function
   static int tempSign = 1;
   static int valueIndex = 0;
+
   while (Serial.available()) {
     char c = Serial.read();
-    // switch - case checks the value of the variable in the switch function
-    // in this case, the char c, then runs one of the cases that fit the value of the variable
-    // for more information, visit the reference page: https://www.arduino.cc/en/Reference/SwitchCase
-    switch (c) {
-      // if the char c from Processing is a number between 0 and 9
-      case '0' ... '9':
-        // save the value of char c to tempValue
-        // but simultaneously rearrange the existing values saved in tempValue
-        // for the digits received through char c to remain coherent
-        // if this does not make sense and would like to know more, send an email to me!
-        tempValue = tempValue * 10 + c - '0';
-        break;
-      // if the char c from Processing is a minus
-      case '-':
-        tempSign = -1;
-        break;
-      // if the char c from Processing is a comma
-      // indicating that the following values of char c is for the next element in the values array
-      case ',':
-        processing_values[valueIndex] = tempValue * tempSign;
-        // reset temporary value and sign
-        tempValue = 0;
-        tempSign = 1;
-        // increment valuesIndex by 1
-        valueIndex++;
-        break;
-      // if the char c from Processing is character 'n'
-      // which signals that it is the end of data
-      case '\n':
-        // save the tempValue
-        // this will b the last element in the values array
-        processing_values[valueIndex] = tempValue * tempSign;
-        // reset tempValue and valueIndex values
-        // to clear out the values array for the next round of readings from Processing
-        tempValue = 0;
-        tempSign = 1;
+    if (c >= '0' && c <= '9') {
+      // received a digit:
+      // multiply the current value by 10, and add the character (converted to a number) as the last digit
+      tempValue = tempValue * 10 + (c - '0');
+    } else if (c == '-') {
+      // received a minus sign:
+      // make a note to multiply the final value by -1
+      tempSign = -1;
+    } else if (c == ',' || c == '\n') {
+      // received a comma, or the newline character at the end of the line:
+      // update the processing_values array with the temporary value
+      processing_values[valueIndex] = tempValue * tempSign;
+      // get ready for the new data by resetting the temporary value and sign
+      tempValue = 0;
+      tempSign = 1;
+      if (c == ',') {
+        // move to dealing with the next entry in the processing_values array
+        valueIndex = valueIndex+1;
+      } else {
+        // except when we reach the end of the line
+        // go back to the first entry in this case
         valueIndex = 0;
-        break;
+      }
     }
   }
 }
