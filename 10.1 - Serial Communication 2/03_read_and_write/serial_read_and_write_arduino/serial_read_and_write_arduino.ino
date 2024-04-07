@@ -53,6 +53,7 @@ void loop() {
 /* You won't need to change this code */
 void getSerialData() {
   static int tempValue = 0;
+  static int tempSign = 1;
   static int valueIndex = 0;
   while (Serial.available()) {
     char c = Serial.read();
@@ -68,12 +69,17 @@ void getSerialData() {
         // if this does not make sense and would like to know more, send an email to me!
         tempValue = tempValue * 10 + c - '0';
         break;
+      // if the char c from Processing is a minus
+      case '-':
+        tempSign = -1;
+        break;
       // if the char c from Processing is a comma
       // indicating that the following values of char c is for the next element in the values array
       case ',':
-        processing_values[valueIndex] = tempValue;
-        // reset tempValue value
+        processing_values[valueIndex] = tempValue * tempSign;
+        // reset temporary value and sign
         tempValue = 0;
+        tempSign = 1;
         // increment valuesIndex by 1
         valueIndex++;
         break;
@@ -82,10 +88,11 @@ void getSerialData() {
       case '\n':
         // save the tempValue
         // this will b the last element in the values array
-        processing_values[valueIndex] = tempValue;
+        processing_values[valueIndex] = tempValue * tempSign;
         // reset tempValue and valueIndex values
         // to clear out the values array for the next round of readings from Processing
         tempValue = 0;
+        tempSign = 1;
         valueIndex = 0;
         break;
     }
