@@ -52,13 +52,15 @@ void getSerialData() {
     } else if (c == ',' || c == '\n') {
       // received a comma, or the newline character at the end of the line:
       // update the processing_values array with the temporary value
-      processing_values[valueIndex] = tempValue * tempSign;
+      if (valueIndex < NUM_OF_VALUES_FROM_PROCESSING) {  // should always be the case, but double-check
+        processing_values[valueIndex] = tempValue * tempSign;
+      }
       // get ready for the new data by resetting the temporary value and sign
       tempValue = 0;
       tempSign = 1;
       if (c == ',') {
         // move to dealing with the next entry in the processing_values array
-        valueIndex = valueIndex+1;
+        valueIndex = valueIndex + 1;
       } else {
         // except when we reach the end of the line
         // go back to the first entry in this case
