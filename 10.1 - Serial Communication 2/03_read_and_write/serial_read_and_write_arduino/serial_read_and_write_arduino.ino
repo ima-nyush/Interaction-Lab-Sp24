@@ -34,7 +34,7 @@ void loop() {
   myservo.write(processing_values[1]);
 
   // example of sending values to Processing
-  int sensor0 = analogRead(A0);  // a potentiometer
+  int sensor0 = analogRead(A0);  // e.g. a photoresistor
   int sensor1 = digitalRead(2);  // the button
 
   // send the values keeping this format

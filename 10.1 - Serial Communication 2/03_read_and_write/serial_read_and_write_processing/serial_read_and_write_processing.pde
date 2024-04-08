@@ -27,7 +27,7 @@ void draw() {
   // receive the values from Arduino
   getSerialData();
 
-  // arduino_values[0] are the values from the potentiometer
+  // arduino_values[0] are the values from the photoresistor
   float r = map(arduino_values[0], 0, 1023, 0, width);
   circle(width/2, height/2, r);
 
