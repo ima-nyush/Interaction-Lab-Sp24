@@ -11,5 +11,5 @@ void draw() {
 }
 
 void mouseReleased() {
-  saveFrame("frame.jpg");
+  saveFrame("frame.png");
 }
