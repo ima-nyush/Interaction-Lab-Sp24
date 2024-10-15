@@ -1,14 +1,14 @@
 // An annoying game with a button (with pull-down) on pin 2, and the buzzer on pin 8
 // Try to hold down the button for exactly 10 seconds
 
-int state = 1;
-int button;
-long startTime;
+int state = 1; // game starts at state 1
+int button; // button val
+long startTime; // variable to record the start time of the game. We use the long datatype for large number such as millis()
 
 void setup() {
   Serial.begin(9600);
-  pinMode(2, INPUT);
-  pinMode(13, OUTPUT);
+  pinMode(2, INPUT); // button pin 2
+  pinMode(13, OUTPUT); // internal LED pin 13
 }
 
 void loop() {
@@ -27,10 +27,8 @@ void state1() {
   delay(100);
 
   if (digitalRead(2) == HIGH) {
-    // transition to main game
-    state = 2;
-    // record the time the player started pressing the button
-    startTime = millis();
+    state = 2;  // transition to main game
+    startTime = millis(); // record the time the player started pressing the button
   }
 }
 
@@ -38,20 +36,17 @@ void state1() {
 void state2() {
   button = digitalRead(2);
 
-  if (button == LOW) {
-    // turn off the sound again
-    noTone(8);
-
+  if (button == LOW) { // After the button is released
+     noTone(8); // turn off the sound while checking the results
+   
     Serial.print("10 seconds? You pressed ");
-    Serial.println((millis()-startTime) / 1000.0);
+    Serial.println((millis()-startTime) / 1000.0); // write on serial print the amount of seconds you pressed the button
 
     if (millis()-startTime > 9500 && millis()-startTime < 10500) {
-      // transition to outro (player won)
-      state = 3;
+      state = 3;  // transition to outro (player won)
       Serial.println("Good timing!");
     } else {
-      // transition back to intro (player lost)
-      state = 1;
+      state = 1;  // transition back to intro (player lost)
       // but first a brief sound effect
       tone(8, 294);
       delay(300);
