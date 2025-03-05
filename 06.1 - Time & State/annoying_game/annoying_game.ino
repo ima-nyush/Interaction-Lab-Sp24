@@ -1,14 +1,15 @@
 // An annoying game with a button (with pull-down) on pin 2, and the buzzer on pin 8
 // Try to hold down the button for exactly 10 seconds
 
-int state = 1; // game starts at state 1
-int button; // button val
-long startTime; // variable to record the start time of the game. We use the long datatype for large number such as millis()
+int val;         // button val
+int prevVal;     // prev button val
+long startTime;  // variable to record the start time of the game. We use the long datatype for large number such as millis()
+int state = 1;   // game starts at state 1
 
 void setup() {
   Serial.begin(9600);
-  pinMode(2, INPUT); // button pin 2
-  pinMode(13, OUTPUT); // internal LED pin 13
+  pinMode(2, INPUT);    // button pin 2
+  pinMode(13, OUTPUT);  // internal LED pin 13
 }
 
 void loop() {
@@ -23,26 +24,26 @@ void loop() {
 
 // intro
 void state1() {
-  tone(8, random(100, 1100));
+  tone(8, random(100, 1100));  // generate random sounds every 100 ms
   delay(100);
-
-  if (digitalRead(2) == HIGH) {
-    state = 2;  // transition to main game
-    startTime = millis(); // record the time the player started pressing the button
+  val = digitalRead(2);
+  if (prevVal == LOW && val == HIGH) {
+    state = 2;             // transition to main game
+    startTime = millis();  // record the time the player started pressing the button
   }
+   prevVal = val;
 }
 
 // main game
 void state2() {
-  button = digitalRead(2);
+   val = digitalRead(2);
 
-  if (button == LOW) { // After the button is released
-     noTone(8); // turn off the sound while checking the results
-   
+   if (prevVal == HIGH && val == LOW) {  // After the button is released
+    noTone(8);          // turn off the sound while checking the results
     Serial.print("10 seconds? You pressed ");
-    Serial.println((millis()-startTime) / 1000.0); // write on serial print the amount of seconds you pressed the button
+    Serial.println((millis() - startTime) / 1000.0);  // write on serial print the amount of seconds you pressed the button
 
-    if (millis()-startTime > 9500 && millis()-startTime < 10500) {
+    if (millis() - startTime > 9500 && millis() - startTime < 10500) {
       state = 3;  // transition to outro (player won)
       Serial.println("Good timing!");
     } else {
@@ -60,6 +61,7 @@ void state2() {
       delay(1000);
     }
   }
+  prevVal = val;
 }
 
 // outro
